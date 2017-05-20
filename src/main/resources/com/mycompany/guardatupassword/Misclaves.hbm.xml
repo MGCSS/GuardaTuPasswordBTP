@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 20-may-2017 11:16:05 by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+    <class name="com.mycompany.guardatupassword.Misclaves" table="misclaves" catalog="guardatupassword" optimistic-lock="version">
+        <id name="idClaves" type="java.lang.Integer">
+            <column name="idClaves" />
+            <generator class="identity" />
+        </id>
+        <property name="descripcion" type="string">
+            <column name="Descripcion" length="250" not-null="true" />
+        </property>
+        <property name="clave" type="string">
+            <column name="Clave" length="16" not-null="true" />
+        </property>
+        <property name="nombreUsuario" type="string">
+            <column name="Nombre_usuario" length="16" not-null="true" />
+        </property>
+    </class>
+</hibernate-mapping>
