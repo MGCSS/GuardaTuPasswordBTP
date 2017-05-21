@@ -16,7 +16,7 @@ public class Principal {
      */
     public static void main(String[] args) {
         Interfaz interfaz= new Interfaz();
-                
+            
         interfaz.setLocationRelativeTo(null);
         interfaz.setVisible(true);
     }

@@ -8,7 +8,10 @@ package com.mycompany.guardatupassword;
 import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.security.NoSuchAlgorithmException;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.Timer;
 import javax.swing.table.DefaultTableModel;
@@ -24,6 +27,7 @@ public class Interfaz extends javax.swing.JFrame {
     private Timer animar;
     private ActionListener ejecutarAnimacion;
 
+    private CifrarPassword cifrar;
     //Gestores para el manejo de las tablas
     private GestorUsuario gestorUsuario;
     private Usuarios usuario;
@@ -54,11 +58,14 @@ public class Interfaz extends javax.swing.JFrame {
             }
         };
 
-        //Inicializacion
+        //Inicializacion del gestor de Usuario
         this.gestorUsuario = new GestorUsuario();
         this.usuario = gestorUsuario.getUsuarios();
-        
+        //Inicializacion del gestor de Claves
         this.gestorClaves = new GestorClaves();
+        
+        //Inicializacion objeto de cifrado
+        this.cifrar= new CifrarPassword();
     }
 
     /**
@@ -1227,7 +1234,8 @@ public class Interfaz extends javax.swing.JFrame {
                 this.men.showMessageDialog(null, "Contraseña incorrecta", "Contraseña", JOptionPane.WARNING_MESSAGE);
             } else {
                 this.Boton_Sesion.setText("Cerrar Sesión");
-                this.jLabel_usuario.setText(this.usuario.getNombreUsuario());
+                this.jLabel_usuario.setText("Sesión Iniciada por: "+this.usuario.getNombreUsuario());
+                this.Boton_Sesion.setBackground(new Color(0,60,123));
                 this.isSesion = true;
                 this.jFrame_sesion.setVisible(false);
                 this.setVisible(true);
@@ -1248,7 +1256,8 @@ public class Interfaz extends javax.swing.JFrame {
                 if (this.gestorUsuario.guardaUsuario(usuario) == true) {
                     this.men.showMessageDialog(null, "Usuario registrado correctamente", "Usuario", JOptionPane.INFORMATION_MESSAGE);
                     this.Boton_Sesion.setText("Cerrar Sesión");
-                    this.jLabel_usuario.setText(this.usuario.getNombreUsuario());
+                    this.jLabel_usuario.setText("Sesión Iniciada por: "+this.usuario.getNombreUsuario());
+                    this.Boton_Sesion.setBackground(new Color(0,60,123));
                     this.isSesion = true;
                     this.jFrame_sesion.setVisible(false);
                     this.setVisible(true);
@@ -1279,6 +1288,7 @@ public class Interfaz extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton_mod_aceptarActionPerformed
 
     private void jButton_nuevaClaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_nuevaClaveActionPerformed
+        String cifrado;
         if (this.jTextField_claveNueva.getText().compareTo("") == 0) {
             men.showMessageDialog(null, "Campo Obligatorio", "Contraseña", JOptionPane.WARNING_MESSAGE);
         } else {
@@ -1286,8 +1296,15 @@ public class Interfaz extends javax.swing.JFrame {
                 men.showMessageDialog(null, "Campo Obligatorio", "Descripción", JOptionPane.WARNING_MESSAGE);
             } else {
                 this.misclaves = new Misclaves();
+                try {
+                    cifrado = this.cifrar.CifrarClave(this.jTextField_claveNueva.getText());
+                    this.misclaves.setClave(cifrado.substring(0, 16));
+                } catch (NoSuchAlgorithmException ex) {
+                    Logger.getLogger(Interfaz.class.getName()).log(Level.SEVERE, null, ex);
+                }
 
-                this.misclaves.setClave(this.jTextField_claveNueva.getText());
+                                
+//                this.misclaves.setClave(this.jTextField_claveNueva.getText());
                 this.misclaves.setDescripcion(this.jTextArea2.getText());
                 this.misclaves.setNombreUsuario(this.jLabel_usuario.getText());
 
