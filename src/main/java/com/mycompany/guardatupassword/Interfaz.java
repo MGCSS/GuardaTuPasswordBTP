@@ -8,6 +8,7 @@ package com.mycompany.guardatupassword;
 import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.List;
 import javax.swing.JOptionPane;
 import javax.swing.Timer;
 import javax.swing.table.DefaultTableModel;
@@ -23,8 +24,11 @@ public class Interfaz extends javax.swing.JFrame {
     private Timer animar;
     private ActionListener ejecutarAnimacion;
 
+    //Gestores para el manejo de las tablas
     private GestorUsuario gestorUsuario;
     private Usuarios usuario;
+    private GestorClaves gestorClaves;
+    private Misclaves misclaves;
 
     private boolean isSesion = false;//****************************CAMBIAR A FALSE********************
 
@@ -33,7 +37,7 @@ public class Interfaz extends javax.swing.JFrame {
      */
     public Interfaz() {
         initComponents();
-        this.jTabla_info.getTableHeader().setReorderingAllowed(false); //Impide mover las columnas en jTable
+//        this.jTabla_info.getTableHeader().setReorderingAllowed(false); //Impide mover las columnas en jTable
         this.jPanel_nuevaClaves.setVisible(false);
         this.jPanel_listado.setVisible(false);
         this.jPanel_modifica_pass.setVisible(false);
@@ -53,23 +57,8 @@ public class Interfaz extends javax.swing.JFrame {
         //Inicializacion
         this.gestorUsuario = new GestorUsuario();
         this.usuario = gestorUsuario.getUsuarios();
-
-        DefaultTableModel dataModel = (DefaultTableModel) this.jTabla_info.getModel();
-
-        Object nuevo[] = new Object[3];
-        nuevo[0] = dataModel.getRowCount() + 1;
-        nuevo[1] = "fdfdfd";
-        nuevo[2] = "contraseña";
-
-        Object nuevo1[] = new Object[3];
-        nuevo1[0] = dataModel.getRowCount() + 1;
-        nuevo1[1] = "hola";
-        nuevo1[2] = "contraseña2";
-
-        dataModel.addRow(nuevo);
-        dataModel.addRow(nuevo1);
-        this.jTabla_info.setModel(dataModel);
-
+        
+        this.gestorClaves = new GestorClaves();
     }
 
     /**
@@ -128,11 +117,8 @@ public class Interfaz extends javax.swing.JFrame {
         jPanel_listado = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTabla_info = new javax.swing.JTable();
-        jScrollPane2 = new javax.swing.JScrollPane();
-        jTextArea_descripcion = new javax.swing.JTextArea();
-        jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
-        jSeparator4 = new javax.swing.JSeparator();
+        jBoton_cerrarListado = new javax.swing.JButton();
         jPanel_modifica_pass = new javax.swing.JPanel();
         jLabel14 = new javax.swing.JLabel();
         jLabel15 = new javax.swing.JLabel();
@@ -524,9 +510,9 @@ public class Interfaz extends javax.swing.JFrame {
         jPanel_sesionLayout.setHorizontalGroup(
             jPanel_sesionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel_sesionLayout.createSequentialGroup()
-                .addContainerGap(273, Short.MAX_VALUE)
-                .addComponent(jLabel_usuario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(84, 84, 84)
+                .addContainerGap()
+                .addComponent(jLabel_usuario, javax.swing.GroupLayout.DEFAULT_SIZE, 582, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(Boton_Sesion, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
@@ -692,6 +678,11 @@ public class Interfaz extends javax.swing.JFrame {
                 jButton_nuevaClaveMouseExited(evt);
             }
         });
+        jButton_nuevaClave.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton_nuevaClaveActionPerformed(evt);
+            }
+        });
         jPanel_nuevaClaves.add(jButton_nuevaClave, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 270, -1, -1));
 
         jButton_borrar_campos.setBackground(new java.awt.Color(0, 102, 153));
@@ -736,11 +727,11 @@ public class Interfaz extends javax.swing.JFrame {
 
             },
             new String [] {
-                "Número", "Nombre", "Contraseña"
+                "Id Clave", "Descripción", "Contraseña", "Usuario"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false
+                false, false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -753,23 +744,34 @@ public class Interfaz extends javax.swing.JFrame {
         jTabla_info.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         jScrollPane1.setViewportView(jTabla_info);
 
-        jTextArea_descripcion.setEditable(false);
-        jTextArea_descripcion.setColumns(20);
-        jTextArea_descripcion.setFont(new java.awt.Font("Calibri", 0, 14)); // NOI18N
-        jTextArea_descripcion.setLineWrap(true);
-        jTextArea_descripcion.setRows(5);
-        jTextArea_descripcion.setText("gfgfgfgdfgfd");
-        jScrollPane2.setViewportView(jTextArea_descripcion);
-
-        jLabel2.setFont(new java.awt.Font("Calibri", 0, 24)); // NOI18N
-        jLabel2.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel2.setText("Descripción:");
-
         jLabel3.setFont(new java.awt.Font("Calibri", 0, 24)); // NOI18N
         jLabel3.setForeground(new java.awt.Color(255, 255, 255));
         jLabel3.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel3.setText("Información:");
+        jLabel3.setText("Listados de Claves");
+
+        jBoton_cerrarListado.setBackground(new java.awt.Color(0, 102, 153));
+        jBoton_cerrarListado.setFont(new java.awt.Font("Calibri", 0, 14)); // NOI18N
+        jBoton_cerrarListado.setForeground(new java.awt.Color(255, 255, 255));
+        jBoton_cerrarListado.setText("Cerrar");
+        jBoton_cerrarListado.setBorder(null);
+        jBoton_cerrarListado.setBorderPainted(false);
+        jBoton_cerrarListado.setFocusPainted(false);
+        jBoton_cerrarListado.setMaximumSize(new java.awt.Dimension(150, 45));
+        jBoton_cerrarListado.setMinimumSize(new java.awt.Dimension(150, 45));
+        jBoton_cerrarListado.setPreferredSize(new java.awt.Dimension(150, 45));
+        jBoton_cerrarListado.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                jBoton_cerrarListadoMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                jBoton_cerrarListadoMouseExited(evt);
+            }
+        });
+        jBoton_cerrarListado.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jBoton_cerrarListadoActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel_listadoLayout = new javax.swing.GroupLayout(jPanel_listado);
         jPanel_listado.setLayout(jPanel_listadoLayout);
@@ -778,18 +780,13 @@ public class Interfaz extends javax.swing.JFrame {
             .addGroup(jPanel_listadoLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel_listadoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel_listadoLayout.createSequentialGroup()
-                        .addComponent(jLabel2)
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addGroup(jPanel_listadoLayout.createSequentialGroup()
-                        .addGroup(jPanel_listadoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel_listadoLayout.createSequentialGroup()
-                                .addComponent(jLabel3)
-                                .addGap(0, 0, Short.MAX_VALUE))
-                            .addComponent(jScrollPane2)
-                            .addComponent(jSeparator4, javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 696, Short.MAX_VALUE))
-                        .addContainerGap())))
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 696, Short.MAX_VALUE)
+                    .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
+            .addGroup(jPanel_listadoLayout.createSequentialGroup()
+                .addGap(288, 288, 288)
+                .addComponent(jBoton_cerrarListado, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel_listadoLayout.setVerticalGroup(
             jPanel_listadoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -797,17 +794,13 @@ public class Interfaz extends javax.swing.JFrame {
                 .addContainerGap()
                 .addComponent(jLabel3)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 183, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(22, 22, 22)
-                .addComponent(jSeparator4, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 328, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(jLabel2)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 151, Short.MAX_VALUE)
-                .addContainerGap())
+                .addComponent(jBoton_cerrarListado, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(41, Short.MAX_VALUE))
         );
 
-        getContentPane().add(jPanel_listado, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 80, 720, 480));
+        getContentPane().add(jPanel_listado, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 80, 720, -1));
 
         jPanel_modifica_pass.setBackground(new java.awt.Color(0, 60, 123));
         jPanel_modifica_pass.setMaximumSize(new java.awt.Dimension(720, 480));
@@ -1064,6 +1057,9 @@ public class Interfaz extends javax.swing.JFrame {
         } else {
             this.Boton_Sesion.setText("Iniciar Sesión");
             this.jLabel_usuario.setText("Sesión no iniciada");
+            this.jPanel_nuevaClaves.setVisible(false);
+            this.jPanel_listado.setVisible(false);
+            this.jPanel_modifica_pass.setVisible(false);
             this.isSesion = false;
         }
 
@@ -1122,16 +1118,32 @@ public class Interfaz extends javax.swing.JFrame {
     }//GEN-LAST:event_jBoton_nueva_passwActionPerformed
 
     private void jBoton_listar_passwActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBoton_listar_passwActionPerformed
+        List <Object []> listar;
+        DefaultTableModel dataModel = (DefaultTableModel) this.jTabla_info.getModel();
+        Object temp[] = new Object[4]; //0 IdClave, 1 Descripcion, 2 Clave, 3 Nombre Usuario
+ 
+        
         if (this.isSesion == false) { //Si no ha iniciado sesion
             men.showMessageDialog(null, "Debes iniciar sesión", "Aviso", JOptionPane.WARNING_MESSAGE);
         } else {
-            //this.Borrar_tabla();*************************************************
+            this.Borrar_tabla();
 
             this.jPanel_nuevaClaves.setVisible(false); //Oculta la ventana
             this.jPanel_modifica_pass.setVisible(false);
             this.jButton_nuevaClave.setLocation(240, 270);
             this.jButton_borrar_campos.setLocation(445, 270);
             if (this.jPanel_listado.isVisible() == false) {
+                
+                listar= this.gestorClaves.listarClaves();
+                if (listar != null){
+                    for (int i= 0; i < listar.size(); i++){
+                        temp= listar.get(i);
+                        dataModel.addRow(temp);
+                        this.jTabla_info.setModel(dataModel);
+                    }
+    
+                }
+               
                 this.jPanel_listado.setVisible(true); //Activa la ventana para el listado de claves
             } else {
                 this.jPanel_listado.setVisible(false);
@@ -1266,6 +1278,39 @@ public class Interfaz extends javax.swing.JFrame {
         
     }//GEN-LAST:event_jButton_mod_aceptarActionPerformed
 
+    private void jButton_nuevaClaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_nuevaClaveActionPerformed
+        if (this.jTextField_claveNueva.getText().compareTo("") == 0) {
+            men.showMessageDialog(null, "Campo Obligatorio", "Contraseña", JOptionPane.WARNING_MESSAGE);
+        } else {
+            if (this.jTextArea2.getText().compareTo("") == 0) {
+                men.showMessageDialog(null, "Campo Obligatorio", "Descripción", JOptionPane.WARNING_MESSAGE);
+            } else {
+                this.misclaves = new Misclaves();
+
+                this.misclaves.setClave(this.jTextField_claveNueva.getText());
+                this.misclaves.setDescripcion(this.jTextArea2.getText());
+                this.misclaves.setNombreUsuario(this.jLabel_usuario.getText());
+
+                if (this.gestorClaves.nuevaClaves(misclaves) == true) {
+                    men.showMessageDialog(null, "Claves guardadas correctamente", "Información", JOptionPane.INFORMATION_MESSAGE);
+                    this.reset_campos();
+                }
+            }
+        }
+    }//GEN-LAST:event_jButton_nuevaClaveActionPerformed
+
+    private void jBoton_cerrarListadoMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jBoton_cerrarListadoMouseEntered
+        this.jBoton_cerrarListado.setBackground(new Color(0, 185, 175));
+    }//GEN-LAST:event_jBoton_cerrarListadoMouseEntered
+
+    private void jBoton_cerrarListadoMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jBoton_cerrarListadoMouseExited
+        this.jBoton_cerrarListado.setBackground(new Color(0,102,153));
+    }//GEN-LAST:event_jBoton_cerrarListadoMouseExited
+
+    private void jBoton_cerrarListadoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBoton_cerrarListadoActionPerformed
+        this.jPanel_listado.setVisible(false);
+    }//GEN-LAST:event_jBoton_cerrarListadoActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -1311,7 +1356,6 @@ public class Interfaz extends javax.swing.JFrame {
         this.jTextArea2.setText("");
         this.jTextField_claveNueva.setText("");
         this.jTextArea2.setText("");
-        this.jTextArea_descripcion.setText("");
         this.jPassModificar.setText("");
         this.jPassConfirmarMod.setText("");
     }
@@ -1335,6 +1379,7 @@ public class Interfaz extends javax.swing.JFrame {
     private javax.swing.JButton Boton_Sesion;
     private javax.swing.JButton jBoton_aceptar_sesion;
     private javax.swing.JButton jBoton_cambiar_passw;
+    private javax.swing.JButton jBoton_cerrarListado;
     private javax.swing.JButton jBoton_listar_passw;
     private javax.swing.JButton jBoton_nueva_passw;
     private javax.swing.JButton jBoton_registro;
@@ -1352,7 +1397,6 @@ public class Interfaz extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel15;
     private javax.swing.JLabel jLabel16;
-    private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
@@ -1379,17 +1423,14 @@ public class Interfaz extends javax.swing.JFrame {
     private javax.swing.JPasswordField jPasswordField_registro;
     private javax.swing.JPasswordField jPassword_sesion;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JSeparator jSeparator2;
     private javax.swing.JSeparator jSeparator3;
-    private javax.swing.JSeparator jSeparator4;
     private javax.swing.JSeparator jSeparator5;
     private javax.swing.JSeparator jSeparator6;
     private javax.swing.JTable jTabla_info;
     private javax.swing.JTextArea jTextArea2;
-    private javax.swing.JTextArea jTextArea_descripcion;
     private javax.swing.JTextField jTextField_claveNueva;
     private javax.swing.JTextField jTextField_usuario;
     private javax.swing.JTextField jTextField_usuario_registro;
