@@ -41,7 +41,7 @@ public class Interfaz extends javax.swing.JFrame {
      */
     public Interfaz() {
         initComponents();
-//        this.jTabla_info.getTableHeader().setReorderingAllowed(false); //Impide mover las columnas en jTable
+        this.jTabla_info.getTableHeader().setReorderingAllowed(false); //Impide mover las columnas en jTable
         this.jPanel_nuevaClaves.setVisible(false);
         this.jPanel_listado.setVisible(false);
         this.jPanel_modifica_pass.setVisible(false);
@@ -126,6 +126,7 @@ public class Interfaz extends javax.swing.JFrame {
         jTabla_info = new javax.swing.JTable();
         jLabel3 = new javax.swing.JLabel();
         jBoton_cerrarListado = new javax.swing.JButton();
+        jBoton_mostrarclaves = new javax.swing.JButton();
         jPanel_modifica_pass = new javax.swing.JPanel();
         jLabel14 = new javax.swing.JLabel();
         jLabel15 = new javax.swing.JLabel();
@@ -750,6 +751,16 @@ public class Interfaz extends javax.swing.JFrame {
         jTabla_info.setSelectionForeground(new java.awt.Color(0, 0, 204));
         jTabla_info.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         jScrollPane1.setViewportView(jTabla_info);
+        if (jTabla_info.getColumnModel().getColumnCount() > 0) {
+            jTabla_info.getColumnModel().getColumn(0).setResizable(false);
+            jTabla_info.getColumnModel().getColumn(0).setPreferredWidth(5);
+            jTabla_info.getColumnModel().getColumn(1).setResizable(false);
+            jTabla_info.getColumnModel().getColumn(1).setPreferredWidth(200);
+            jTabla_info.getColumnModel().getColumn(2).setResizable(false);
+            jTabla_info.getColumnModel().getColumn(2).setPreferredWidth(10);
+            jTabla_info.getColumnModel().getColumn(3).setResizable(false);
+            jTabla_info.getColumnModel().getColumn(3).setPreferredWidth(10);
+        }
 
         jLabel3.setFont(new java.awt.Font("Calibri", 0, 24)); // NOI18N
         jLabel3.setForeground(new java.awt.Color(255, 255, 255));
@@ -780,6 +791,31 @@ public class Interfaz extends javax.swing.JFrame {
             }
         });
 
+        jBoton_mostrarclaves.setBackground(new java.awt.Color(0, 102, 153));
+        jBoton_mostrarclaves.setFont(new java.awt.Font("Calibri", 0, 14)); // NOI18N
+        jBoton_mostrarclaves.setForeground(new java.awt.Color(255, 255, 255));
+        jBoton_mostrarclaves.setText("Mostrar Claves");
+        jBoton_mostrarclaves.setToolTipText("");
+        jBoton_mostrarclaves.setBorder(null);
+        jBoton_mostrarclaves.setBorderPainted(false);
+        jBoton_mostrarclaves.setFocusPainted(false);
+        jBoton_mostrarclaves.setMaximumSize(new java.awt.Dimension(150, 45));
+        jBoton_mostrarclaves.setMinimumSize(new java.awt.Dimension(150, 45));
+        jBoton_mostrarclaves.setPreferredSize(new java.awt.Dimension(150, 45));
+        jBoton_mostrarclaves.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                jBoton_mostrarclavesMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                jBoton_mostrarclavesMouseExited(evt);
+            }
+        });
+        jBoton_mostrarclaves.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jBoton_mostrarclavesActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel_listadoLayout = new javax.swing.GroupLayout(jPanel_listado);
         jPanel_listado.setLayout(jPanel_listadoLayout);
         jPanel_listadoLayout.setHorizontalGroup(
@@ -791,8 +827,10 @@ public class Interfaz extends javax.swing.JFrame {
                     .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
             .addGroup(jPanel_listadoLayout.createSequentialGroup()
-                .addGap(288, 288, 288)
+                .addGap(166, 166, 166)
                 .addComponent(jBoton_cerrarListado, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(78, 78, 78)
+                .addComponent(jBoton_mostrarclaves, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel_listadoLayout.setVerticalGroup(
@@ -803,7 +841,9 @@ public class Interfaz extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 328, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(jBoton_cerrarListado, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(jPanel_listadoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jBoton_cerrarListado, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jBoton_mostrarclaves, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(41, Short.MAX_VALUE))
         );
 
@@ -1048,7 +1088,7 @@ public class Interfaz extends javax.swing.JFrame {
         if (this.isSesion == false) {
             if (this.gestorUsuario.comprobarUsuario() == true) { //Si existe algun usuario
                 this.jTextField_usuario.setText(this.usuario.getNombreUsuario());
-                this.jPassword_sesion.setText(this.usuario.getPassword());
+                //this.jPassword_sesion.setText(this.usuario.getPassword());
                 this.jBoton_registro.setEnabled(false);
                 this.jBoton_aceptar_sesion.setEnabled(true);
             } else {
@@ -1141,16 +1181,18 @@ public class Interfaz extends javax.swing.JFrame {
             this.jButton_borrar_campos.setLocation(445, 270);
             if (this.jPanel_listado.isVisible() == false) {
                 
-                listar= this.gestorClaves.listarClaves();
-                if (listar != null){
-                    for (int i= 0; i < listar.size(); i++){
-                        temp= listar.get(i);
+                listar = this.gestorClaves.listarClaves();
+                if (listar != null) {
+                    this.jBoton_mostrarclaves.setEnabled(true);
+                    for (int i = 0; i < listar.size(); i++) {
+                        temp = listar.get(i);
                         dataModel.addRow(temp);
                         this.jTabla_info.setModel(dataModel);
                     }
-    
                 }
-               
+                else {
+                    this.jBoton_mostrarclaves.setEnabled(false);
+                }
                 this.jPanel_listado.setVisible(true); //Activa la ventana para el listado de claves
             } else {
                 this.jPanel_listado.setVisible(false);
@@ -1227,10 +1269,20 @@ public class Interfaz extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton_mod_cancelarActionPerformed
 
     private void jBoton_aceptar_sesionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBoton_aceptar_sesionActionPerformed
+        String cifrado;
+        
+        
         if (this.gestorUsuario.confirmaUsuario(this.jTextField_usuario.getText()) == false) {
             this.men.showMessageDialog(null, "El usuario no existe", "Nombre Usuario", JOptionPane.INFORMATION_MESSAGE);
         } else {
-            if (this.gestorUsuario.confirmaPassword(this.jPassword_sesion.getText()) == false) {
+            try {
+                cifrado = this.cifrar.CifrarClaveUsuario(this.jPassword_sesion.getText());
+                this.usuario.setPassword(cifrado.substring(0, 16));
+            } catch (NoSuchAlgorithmException ex) {
+                Logger.getLogger(Interfaz.class.getName()).log(Level.SEVERE, null, ex);
+            }            
+                        
+            if (this.gestorUsuario.confirmaPassword(this.usuario.getPassword()) == false) {
                 this.men.showMessageDialog(null, "Contraseña incorrecta", "Contraseña", JOptionPane.WARNING_MESSAGE);
             } else {
                 this.Boton_Sesion.setText("Cerrar Sesión");
@@ -1244,6 +1296,8 @@ public class Interfaz extends javax.swing.JFrame {
     }//GEN-LAST:event_jBoton_aceptar_sesionActionPerformed
 
     private void jBoton_registroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBoton_registroActionPerformed
+        String cifrado;
+        
         if (this.jTextField_usuario_registro.getText().compareTo("") == 0) {
             this.men.showMessageDialog(null, "Campo Obligatorio", "Nombre Usuario", JOptionPane.WARNING_MESSAGE);
         } else {
@@ -1252,7 +1306,14 @@ public class Interfaz extends javax.swing.JFrame {
             } else {
                 this.usuario = new Usuarios();
                 this.usuario.setNombreUsuario(this.jTextField_usuario_registro.getText());
-                this.usuario.setPassword(this.jPasswordField_registro.getText());
+                
+                try {
+                    cifrado = this.cifrar.CifrarClaveUsuario(this.jPasswordField_registro.getText());
+                    this.usuario.setPassword(cifrado.substring(0, 16));
+                } catch (NoSuchAlgorithmException ex) {
+                    Logger.getLogger(Interfaz.class.getName()).log(Level.SEVERE, null, ex);
+                }                 
+                
                 if (this.gestorUsuario.guardaUsuario(usuario) == true) {
                     this.men.showMessageDialog(null, "Usuario registrado correctamente", "Usuario", JOptionPane.INFORMATION_MESSAGE);
                     this.Boton_Sesion.setText("Cerrar Sesión");
@@ -1267,7 +1328,8 @@ public class Interfaz extends javax.swing.JFrame {
     }//GEN-LAST:event_jBoton_registroActionPerformed
 
     private void jButton_mod_aceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_mod_aceptarActionPerformed
-
+        String cifrado;
+        
         if (this.jPassModificar.getText().compareTo("") == 0) {
             this.men.showMessageDialog(null, "Campo Obligatorio", "Contraseña", JOptionPane.WARNING_MESSAGE);
         }
@@ -1276,8 +1338,15 @@ public class Interfaz extends javax.swing.JFrame {
                 this.men.showMessageDialog(null, "La contraseña es distinta", "Contraseña", JOptionPane.WARNING_MESSAGE);
             }
             else {
-                this.usuario.setPassword(this.jPassModificar.getText());
-                
+                //this.usuario.setPassword(this.jPassModificar.getText());
+
+                try {
+                    cifrado = this.cifrar.CifrarClaveUsuario(this.jPassModificar.getText());
+                    this.usuario.setPassword(cifrado.substring(0, 16));
+                } catch (NoSuchAlgorithmException ex) {
+                    Logger.getLogger(Interfaz.class.getName()).log(Level.SEVERE, null, ex);
+                }                 
+                                
                 if (this.gestorUsuario.modificaPassword(usuario) == true){
                     this.men.showMessageDialog(null, "La contraseña ha sido modificada correctamente", "Contraseña", JOptionPane.INFORMATION_MESSAGE);
                     this.jPanel_modifica_pass.setVisible(false);
@@ -1296,17 +1365,13 @@ public class Interfaz extends javax.swing.JFrame {
                 men.showMessageDialog(null, "Campo Obligatorio", "Descripción", JOptionPane.WARNING_MESSAGE);
             } else {
                 this.misclaves = new Misclaves();
-                try {
-                    cifrado = this.cifrar.CifrarClave(this.jTextField_claveNueva.getText());
-                    this.misclaves.setClave(cifrado.substring(0, 16));
-                } catch (NoSuchAlgorithmException ex) {
-                    Logger.getLogger(Interfaz.class.getName()).log(Level.SEVERE, null, ex);
-                }
 
-                                
+                cifrado = this.cifrar.CifrarClave(this.jTextField_claveNueva.getText());
+                this.misclaves.setClave(cifrado);
+
 //                this.misclaves.setClave(this.jTextField_claveNueva.getText());
                 this.misclaves.setDescripcion(this.jTextArea2.getText());
-                this.misclaves.setNombreUsuario(this.jLabel_usuario.getText());
+                this.misclaves.setNombreUsuario(this.usuario.getNombreUsuario());
 
                 if (this.gestorClaves.nuevaClaves(misclaves) == true) {
                     men.showMessageDialog(null, "Claves guardadas correctamente", "Información", JOptionPane.INFORMATION_MESSAGE);
@@ -1327,6 +1392,40 @@ public class Interfaz extends javax.swing.JFrame {
     private void jBoton_cerrarListadoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBoton_cerrarListadoActionPerformed
         this.jPanel_listado.setVisible(false);
     }//GEN-LAST:event_jBoton_cerrarListadoActionPerformed
+
+    private void jBoton_mostrarclavesMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jBoton_mostrarclavesMouseEntered
+        this.jBoton_mostrarclaves.setBackground(new Color(0, 185, 175));
+    }//GEN-LAST:event_jBoton_mostrarclavesMouseEntered
+
+    private void jBoton_mostrarclavesMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jBoton_mostrarclavesMouseExited
+        this.jBoton_mostrarclaves.setBackground(new Color(0,102,153));
+    }//GEN-LAST:event_jBoton_mostrarclavesMouseExited
+
+    private void jBoton_mostrarclavesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBoton_mostrarclavesActionPerformed
+        String cifrado, descifrado;
+        if (this.jBoton_mostrarclaves.getText().compareTo("Mostrar Claves") == 0){
+            this.jBoton_mostrarclaves.setText("Ocultar Claves");
+            
+            for(int i= 0; i < this.jTabla_info.getRowCount(); i++){
+                cifrado= this.jTabla_info.getValueAt(i, 2).toString();
+                
+                descifrado= this.cifrar.DesCifrarClave(cifrado);
+                
+                this.jTabla_info.setValueAt(descifrado, i, 2);
+            }  
+        }
+        else {
+            this.jBoton_mostrarclaves.setText("Mostrar Claves");
+            
+            for(int i= 0; i < this.jTabla_info.getRowCount(); i++){
+                descifrado= this.jTabla_info.getValueAt(i, 2).toString();
+                
+                cifrado= this.cifrar.CifrarClave(descifrado);
+                
+                this.jTabla_info.setValueAt(cifrado, i, 2);
+            }            
+        }
+    }//GEN-LAST:event_jBoton_mostrarclavesActionPerformed
 
     /**
      * @param args the command line arguments
@@ -1398,6 +1497,7 @@ public class Interfaz extends javax.swing.JFrame {
     private javax.swing.JButton jBoton_cambiar_passw;
     private javax.swing.JButton jBoton_cerrarListado;
     private javax.swing.JButton jBoton_listar_passw;
+    private javax.swing.JButton jBoton_mostrarclaves;
     private javax.swing.JButton jBoton_nueva_passw;
     private javax.swing.JButton jBoton_registro;
     private javax.swing.JButton jBoton_sesion_exit;

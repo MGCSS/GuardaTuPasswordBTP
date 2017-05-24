@@ -17,7 +17,7 @@ public class CifrarPassword {
     public CifrarPassword() {
     }
     
-    public String CifrarClave (String clave) throws NoSuchAlgorithmException{
+    public String CifrarClaveUsuario (String clave) throws NoSuchAlgorithmException{
         MessageDigest md= MessageDigest.getInstance("MD5");
         md.update(clave.getBytes());
         byte[] b= md.digest();
@@ -28,5 +28,33 @@ public class CifrarPassword {
         }
         
         return sb.toString();
+    }
+    
+    
+    public String CifrarClave(String clave){
+        String cifrado;
+        char tabla[]= clave.toCharArray();
+        
+        for(int i= 0; i < tabla.length; i++){
+            tabla[i]= (char) (tabla[i] + (char) 7);
+        }
+        
+        cifrado= String.valueOf(tabla);
+        
+        return cifrado;
+    }
+    
+    
+    public String DesCifrarClave(String cifrado){
+        String descifrado;
+        char tabla[]= cifrado.toCharArray();
+        
+        for(int i= 0; i < tabla.length; i++){
+            tabla[i]= (char) (tabla[i] - (char) 7);
+        }
+        
+        descifrado= String.valueOf(tabla);
+        
+        return descifrado;
     }
 }
