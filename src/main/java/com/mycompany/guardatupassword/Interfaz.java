@@ -15,7 +15,6 @@ import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.Timer;
 import javax.swing.table.DefaultTableModel;
-import javax.swing.table.TableModel;
 
 /**
  *
@@ -57,7 +56,7 @@ public class Interfaz extends javax.swing.JFrame {
                 }
             }
         };
-
+       
         //Inicializacion del gestor de Usuario
         this.gestorUsuario = new GestorUsuario();
         this.usuario = gestorUsuario.getUsuarios();
@@ -138,6 +137,7 @@ public class Interfaz extends javax.swing.JFrame {
         jButton_mod_aceptar = new javax.swing.JButton();
         jButton_mod_cancelar = new javax.swing.JButton();
         jPanel_fondo = new javax.swing.JPanel();
+        jLabel2 = new javax.swing.JLabel();
 
         jFrame_sesion.setTitle("Iniciar Sesión");
         jFrame_sesion.setAutoRequestFocus(false);
@@ -416,6 +416,7 @@ public class Interfaz extends javax.swing.JFrame {
         setTitle("Guarda Passwords");
         setBackground(new java.awt.Color(0, 60, 123));
         setMaximumSize(new java.awt.Dimension(830, 560));
+        setMinimumSize(new java.awt.Dimension(820, 560));
         setUndecorated(true);
         setResizable(false);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -541,8 +542,7 @@ public class Interfaz extends javax.swing.JFrame {
         jBoton_nueva_passw.setForeground(new java.awt.Color(255, 255, 255));
         jBoton_nueva_passw.setText("+");
         jBoton_nueva_passw.setToolTipText("Añade nueva contraseña");
-        jBoton_nueva_passw.setBorder(null);
-        jBoton_nueva_passw.setBorderPainted(false);
+        jBoton_nueva_passw.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 125, 153), 1, true));
         jBoton_nueva_passw.setFocusPainted(false);
         jBoton_nueva_passw.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseEntered(java.awt.event.MouseEvent evt) {
@@ -566,8 +566,7 @@ public class Interfaz extends javax.swing.JFrame {
         jBoton_listar_passw.setText("Listado");
         jBoton_listar_passw.setToolTipText("Muestra las contraseñas guardadas");
         jBoton_listar_passw.setActionCommand("listado");
-        jBoton_listar_passw.setBorder(null);
-        jBoton_listar_passw.setBorderPainted(false);
+        jBoton_listar_passw.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 125, 153), 1, true));
         jBoton_listar_passw.setFocusPainted(false);
         jBoton_listar_passw.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         jBoton_listar_passw.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -591,8 +590,7 @@ public class Interfaz extends javax.swing.JFrame {
         jBoton_cambiar_passw.setForeground(new java.awt.Color(255, 255, 255));
         jBoton_cambiar_passw.setText("Modificar");
         jBoton_cambiar_passw.setToolTipText("Modifica contraseña usuario");
-        jBoton_cambiar_passw.setBorder(null);
-        jBoton_cambiar_passw.setBorderPainted(false);
+        jBoton_cambiar_passw.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 125, 153), 1, true));
         jBoton_cambiar_passw.setFocusPainted(false);
         jBoton_cambiar_passw.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseEntered(java.awt.event.MouseEvent evt) {
@@ -615,6 +613,7 @@ public class Interfaz extends javax.swing.JFrame {
         jPanel_nuevaClaves.setBackground(new java.awt.Color(0, 60, 123));
         jPanel_nuevaClaves.setMaximumSize(new java.awt.Dimension(720, 480));
         jPanel_nuevaClaves.setMinimumSize(new java.awt.Dimension(720, 480));
+        jPanel_nuevaClaves.setOpaque(false);
         jPanel_nuevaClaves.setPreferredSize(new java.awt.Dimension(720, 480));
         jPanel_nuevaClaves.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
@@ -724,6 +723,7 @@ public class Interfaz extends javax.swing.JFrame {
         getContentPane().add(jPanel_nuevaClaves, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 80, -1, -1));
 
         jPanel_listado.setBackground(new java.awt.Color(0, 60, 123));
+        jPanel_listado.setOpaque(false);
 
         jScrollPane1.setBackground(new java.awt.Color(255, 255, 255));
         jScrollPane1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(55, 55, 55)));
@@ -852,6 +852,7 @@ public class Interfaz extends javax.swing.JFrame {
         jPanel_modifica_pass.setBackground(new java.awt.Color(0, 60, 123));
         jPanel_modifica_pass.setMaximumSize(new java.awt.Dimension(720, 480));
         jPanel_modifica_pass.setMinimumSize(new java.awt.Dimension(720, 480));
+        jPanel_modifica_pass.setOpaque(false);
         jPanel_modifica_pass.setPreferredSize(new java.awt.Dimension(720, 480));
 
         jLabel14.setFont(new java.awt.Font("Calibri", 1, 36)); // NOI18N
@@ -997,15 +998,20 @@ public class Interfaz extends javax.swing.JFrame {
         jPanel_fondo.setMaximumSize(new java.awt.Dimension(720, 480));
         jPanel_fondo.setMinimumSize(new java.awt.Dimension(720, 480));
 
+        jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagen/Fondo.jpg"))); // NOI18N
+        jLabel2.setMaximumSize(new java.awt.Dimension(720, 480));
+        jLabel2.setMinimumSize(new java.awt.Dimension(720, 480));
+        jLabel2.setPreferredSize(new java.awt.Dimension(720, 480));
+
         javax.swing.GroupLayout jPanel_fondoLayout = new javax.swing.GroupLayout(jPanel_fondo);
         jPanel_fondo.setLayout(jPanel_fondoLayout);
         jPanel_fondoLayout.setHorizontalGroup(
             jPanel_fondoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 720, Short.MAX_VALUE)
+            .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         jPanel_fondoLayout.setVerticalGroup(
             jPanel_fondoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 480, Short.MAX_VALUE)
+            .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
         getContentPane().add(jPanel_fondo, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 80, -1, -1));
@@ -1148,7 +1154,6 @@ public class Interfaz extends javax.swing.JFrame {
     }//GEN-LAST:event_jBoton_registroMouseExited
 
     private void jBoton_nueva_passwActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBoton_nueva_passwActionPerformed
-
         if (this.isSesion == false) { //Si no ha iniciado sesion
             men.showMessageDialog(null, "Debes iniciar sesión", "Aviso", JOptionPane.WARNING_MESSAGE);
         } else {
@@ -1184,6 +1189,7 @@ public class Interfaz extends javax.swing.JFrame {
                 listar = this.gestorClaves.listarClaves();
                 if (listar != null) {
                     this.jBoton_mostrarclaves.setEnabled(true);
+                    this.jBoton_mostrarclaves.setText("Mostrar Claves");
                     for (int i = 0; i < listar.size(); i++) {
                         temp = listar.get(i);
                         dataModel.addRow(temp);
@@ -1514,6 +1520,7 @@ public class Interfaz extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel15;
     private javax.swing.JLabel jLabel16;
+    private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
