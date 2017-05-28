@@ -1275,7 +1275,7 @@ public class Interfaz extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton_mod_cancelarActionPerformed
 
     private void jBoton_aceptar_sesionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBoton_aceptar_sesionActionPerformed
-        String cifrado;
+        String cifrado, pass="";
         
         
         if (this.gestorUsuario.confirmaUsuario(this.jTextField_usuario.getText()) == false) {
@@ -1283,12 +1283,14 @@ public class Interfaz extends javax.swing.JFrame {
         } else {
             try {
                 cifrado = this.cifrar.CifrarClaveUsuario(this.jPassword_sesion.getText());
-                this.usuario.setPassword(cifrado.substring(0, 16));
+                //this.usuario.setPassword(cifrado.substring(0, 16));
+                pass= cifrado.substring(0,16);
             } catch (NoSuchAlgorithmException ex) {
                 Logger.getLogger(Interfaz.class.getName()).log(Level.SEVERE, null, ex);
             }            
                         
-            if (this.gestorUsuario.confirmaPassword(this.usuario.getPassword()) == false) {
+            //if (this.gestorUsuario.confirmaPassword(this.usuario.getPassword()) == false) {
+            if (this.gestorUsuario.confirmaPassword(pass) == false) {
                 this.men.showMessageDialog(null, "Contraseña incorrecta", "Contraseña", JOptionPane.WARNING_MESSAGE);
             } else {
                 this.Boton_Sesion.setText("Cerrar Sesión");
